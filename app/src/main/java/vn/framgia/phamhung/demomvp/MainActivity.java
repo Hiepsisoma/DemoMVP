@@ -34,4 +34,5 @@ public class MainActivity extends AppCompatActivity implements ILoginView {
     public void onLoginResult(String message) {
         Toast.makeText(this,message,Toast.LENGTH_LONG).show();
     }
+    // GitHub
 }
