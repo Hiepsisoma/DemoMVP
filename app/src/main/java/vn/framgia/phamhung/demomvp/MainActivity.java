@@ -7,32 +7,46 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import vn.framgia.phamhung.demomvp.Presenter.ILoginPresenter;
-import vn.framgia.phamhung.demomvp.Presenter.LoginPresenter;
-import vn.framgia.phamhung.demomvp.View.ILoginView;
+import java.util.Set;
 
-public class MainActivity extends AppCompatActivity implements ILoginView {
-    EditText edt_email, edt_password;
-    Button btnLogin;
-    ILoginPresenter mILoginPresenter;
+import vn.framgia.phamhung.demomvp.home.Contract;
+import vn.framgia.phamhung.demomvp.home.Presenter;
+
+public class MainActivity extends AppCompatActivity implements Contract.View, View.OnClickListener {
+    private EditText mEditTextName, mEditTextPassword;
+    private Button mButtonLogin;
+    private Presenter mPresenter = new Presenter();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        edt_email = findViewById(R.id.text_email);
-        edt_password = findViewById(R.id.text_password);
-        btnLogin = findViewById(R.id.button_ok);
-        mILoginPresenter = new LoginPresenter(this);
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mILoginPresenter.onLogin(edt_email.getText().toString(),edt_password.getText().toString());
-            }
-        });
+        mPresenter.setView(this);
+        mEditTextName = findViewById(R.id.text_email);
+        mEditTextPassword = findViewById(R.id.text_password);
+        mButtonLogin = findViewById(R.id.button_ok);
+        mButtonLogin.setOnClickListener(this);
     }
+
     @Override
-    public void onLoginResult(String message) {
-        Toast.makeText(this,message,Toast.LENGTH_LONG).show();
+    public void onLoginFailure(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
-    //Tesst
+
+    @Override
+    public void onLoginSuccess(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button_ok:
+                mPresenter.onLogin(mEditTextName.getText().toString(),
+                        mEditTextPassword.getText().toString());
+                break;
+            default:
+                break;
+        }
+    }
 }
