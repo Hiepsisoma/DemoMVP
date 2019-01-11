@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">DemoMVP</string>
+    <string name="string_sign">Sign</string>
 </resources>
